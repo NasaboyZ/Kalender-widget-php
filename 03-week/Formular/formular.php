@@ -61,6 +61,11 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
              color: black;
 
         }
+        .continer-anrede{
+            display:flex;
+            gap: 1rem;
+            margin-left:2rem;
+        }
     </style>
 </head>
 <body>
@@ -78,12 +83,16 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
     <main> 
     <div class="container-form">
 
-        <form class="form-kontakt"  action="formular.php" method="POST">
-            <select class="anrede" name="#" id="">
-                <option value="# my-4">Anrede</option>
-                <option value="#">Er</option>
-                <option value="#">Sie</option>
-            </select>
+        <form class="form-kontakt"  action="/03-week/Formular/validation.php" method="POST">
+        <div class="continer-anrede">
+            <input type="radio" id="html" name="fav_language" value="anrede">
+             <label for="news-letter">Er</label> <br>
+
+<input type="radio" id="html" name="fav_language" value="anrede">
+             <label for="news-letter">Sie</label> <br>
+<input type="radio" id="html" name="fav_language" value="anrede">
+             <label for="news-letter">andere</label>
+    </div>
             <div class="container-firstname">
                 <label for="firstname"></label>
                 <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" required="">
@@ -92,6 +101,13 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                 <label for="secondName"></label>
                 <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" required="">
             </div>
+            <select class="länder" name="#" id="">
+                <option value="# my-4">länder</option>
+                <option value="#">Schweiz</option>
+                <option value="#">Camarun</option>
+                <option value="#">Frankreich</option>
+                <option value="#">Weissrussland</option>
+            </select>
             <div class="container-adresse">
                 <label for="adresse"></label>
                 <input class="focusout" type="text" name="adresse" id="adresse" placeholder="Adresse" required="">
