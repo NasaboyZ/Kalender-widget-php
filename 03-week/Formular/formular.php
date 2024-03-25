@@ -83,23 +83,23 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
     <main> 
     <div class="container-form">
 
-        <form class="form-kontakt"  action="/03-week/Formular/validation.php" method="POST">
+        <form class="form-kontakt" action="validation.php" method="POST">
         <div class="continer-anrede">
-            <input type="radio" id="html" name="fav_language" value="anrede">
+            <input type="radio" id="html" name="fav_language" value="anredeer">
              <label for="news-letter">Er</label> <br>
 
-<input type="radio" id="html" name="fav_language" value="anrede">
+<input type="radio" id="html" name="fav_language" value="anredesie">
              <label for="news-letter">Sie</label> <br>
-<input type="radio" id="html" name="fav_language" value="anrede">
-             <label for="news-letter">andere</label>
+<input type="radio" id="html" name="fav_language" value="nonbinar">
+             <label for="news-letter">nonbinare</label>
     </div>
             <div class="container-firstname">
                 <label for="firstname"></label>
-                <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" required="">
+                <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" >
             </div>
             <div class="container-secondname">
                 <label for="secondName"></label>
-                <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" required="">
+                <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" >
             </div>
             <select class="länder" name="#" id="">
                 <option value="# my-4">länder</option>
@@ -110,19 +110,23 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
             </select>
             <div class="container-adresse">
                 <label for="adresse"></label>
-                <input class="focusout" type="text" name="adresse" id="adresse" placeholder="Adresse" required="">
+                <input class="focusout" type="text" name="adresse" id="adresse" placeholder="Adresse" >
             </div>
             <div class="container-plz">
                 <label for="plz"></label>
-                <input class="focusout" type="text" name="plz" id="plz" placeholder="Postleitzahl" required="">
+                <input class="focusout" type="text" name="plz" id="plz" placeholder="Postleitzahl" >
             </div>
             <div class="container-ort">
                 <label for="ort"></label>
-                <input class="focusout" type="text" name="ort" id="ort" placeholder="Ort" required="">
+                <input class="focusout" type="text" name="ort" id="ort" placeholder="Ort" >
             </div>
             <div class="continer-email">
                 <label for="email"></label>
-                <input class="focusout" type="email" name="email" id="email" placeholder="Email" required="">
+                <input class="focusout" type="email" name="email" id="email" placeholder="Email" >
+            </div>
+            <div class="continer-password">
+                <label for="password"></label>
+                <input class="focusout" type="password" name="password" id="password" placeholder="Password" >
             </div>
             <div class="continer-agb">
             <label class="container">AGB
@@ -147,3 +151,12 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
     </main>
 </body>
 </html>
+<?php
+
+// auslesen von Daten aus einem GET Formular;
+var_dump($_GET);
+
+
+//auslesen von Daten mit eine post formular;
+var_dump($_POST);
+?>

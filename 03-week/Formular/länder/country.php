@@ -1,0 +1,4 @@
+<?php
+$länder =[
+    'Swiss',
+]
