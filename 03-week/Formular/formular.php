@@ -1,7 +1,21 @@
+<?php
+session_start();
+?>
+
+<?php 
+if(isset($_SESSION['hasError']) && $_SESSION['hasError'] == true && isset($_SESSION['errorMessages'])) {
+    foreach($_SESSION['errorMessages'] as $errorMessage) {
+        echo "<p style='color: red;'>$errorMessage</p>";
+    }
+    unset($_SESSION['hasError']);
+    unset($_SESSION['errorMessages']);
+}
+?>
 <?php 
 $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
 ?>
     <?php include 'länder/country.php'; ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +103,7 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                     <label for="female">Frau</label> <br>
                     
                     <input type="radio" id="other" name="anrede" value="Andere">
-                    <label for="other">Andere</label>
+                    <label for="other">Nonbinary</label>
                 </div>
 
                 <div class="container-firstname">

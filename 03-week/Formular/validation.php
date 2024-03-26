@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Auslesen von Daten mit einem POST-Formular
 var_dump($_POST);
 
@@ -6,50 +8,44 @@ $hasError = false;
 $errorMessages = array();
 
 // Überprüfen auf leere Felder
-if(isset($_POST['firstName']) && isset($_POST['secondname']) && isset($_POST['adress']) && isset($_POST['plz']) && isset($_POST['ort']) && isset($_POST['email']) && isset($_POST['password'])) {
-    if(empty($_POST['firstName'])){
+if(isset($_POST['firstname']) && isset($_POST['secondName']) && isset($_POST['adresse']) && isset($_POST['plz']) && isset($_POST['ort']) && isset($_POST['email']) && isset($_POST['password'])) {
+    if(empty($_POST['firstname'])){
         $hasError = true;
         $errorMessages[] = 'Vorname darf nicht leer sein';
-        echo 'Vorname darf nicht leer sein';
     }
 
-    if(empty($_POST['secondname'])){
+    if(empty($_POST['secondName'])){
         $hasError = true;
         $errorMessages[] = 'Nachname darf nicht leer sein';
-        echo 'Nachname darf nicht leer sein';
     }
 
-    if(empty($_POST['adress'])){
+    if(empty($_POST['adresse'])){
         $hasError = true;
         $errorMessages[] = 'Adresse darf nicht leer sein';
-        echo 'Adresse darf nicht leer sein';
     }
 
     if(empty($_POST['plz'])){
         $hasError = true;
         $errorMessages[] = 'PLZ darf nicht leer sein';
-        echo 'PLZ darf nicht leer sein';
     }
 
     if(empty($_POST['ort'])){
         $hasError = true;
         $errorMessages[] = 'Ort darf nicht leer sein';
-        echo 'Ort darf nicht leer sein';
     }
 
     if(empty($_POST['email'])){
         $hasError = true;
         $errorMessages[] = 'Email darf nicht leer sein';
-        echo 'Email darf nicht leer sein';
     }
 
     if(empty($_POST['password'])){
         $hasError = true;
         $errorMessages[] = 'Passwort darf nicht leer sein';
-        echo 'Passwort darf nicht leer sein';
     }
 } else {
-    echo 'Da ist ein leerer Wert';
+    $hasError = true;
+    $errorMessages[] = 'Da ist ein leerer Wert';
 }
 
 // E-Mail-Korrekt?
@@ -68,11 +64,7 @@ if($namenlaenge < 4 || $namenlaenge > 16){
 if(strpos($_POST['firstname'], ' ') !== false) {
     $hasError = true;
     $errorMessages[] = 'Vorname darf keine Leerzeichen enthalten';
-    echo 'Vorname darf keine Leerzeichen enthalten';
 }
-
-
-
 
 // Password-Mindestanzahl Zeichen 8 bis 25 zeichen haben 
 $passwortlaenge = strlen($_POST['password']);
@@ -96,53 +88,27 @@ if(strtolower($_POST['password']) == $_POST['password']){
 // passwort Sonderzeichen
 if(strpos($_POST['password'], ' ') !== false) {
     $hasError = true;
-    $errorMessages[] = 'password darf keine Leerzeichen enthalten';
-    echo 'password darf keine Leerzeichen enthalten';
+    $errorMessages[] = 'Password darf keine Leerzeichen enthalten';
 }
-//passwort darf kein leerzeichen haben
 
 // Überprüfen, ob das Passwort mindestens eine Zahl enthält
 if (!preg_match('/[0-9]/', $_POST['password'])) {
     $hasError = true;
     $errorMessages[] = 'Passwort muss mindestens eine Zahl enthalten';
-    echo 'Passwort muss mindestens eine Zahl enthalten';
 }
-
-
 
 // Überprüfen, ob ein Wert für den Radio-Button gesetzt ist
 if (!isset($_POST['anrede'])) {
+    // Wenn keine Anrede ausgewählt wurde, kannst du hier eine Fehlermeldung anzeigen
     $hasError = true;
-    $errorMessages[] = 'Bitte wählen Sie eine Option für den Radio-Button aus';
-    echo 'Bitte wählen Sie eine Option für den Radio-Button aus';
-}
+    $errorMessages[] = 'Bitte wählen Sie eine Anrede aus!';
+} 
 
+// Session-Variablen setzen
+$_SESSION['hasError'] = $hasError;
+$_SESSION['errorMessages'] = $errorMessages;
 
-
-//Diese auswahl muss wahlide sein
-// Gültige Optionen für den Radio-Button
-$validOptions = array('option1', 'option2', 'option3');
-
-// Überprüfen, ob ein Wert für den Radio-Button gesetzt ist
-if (!isset($_POST['radioOption']) || !in_array($_POST['radioOption'], $validOptions)) {
-    $hasError = true;
-    $errorMessages[] = 'Bitte wählen Sie eine gültige Option für den Radio-Button aus';
-    echo 'Bitte wählen Sie eine gültige Option für den Radio-Button aus';
-}
-
-
-
-// Select input muss mindest eine Option ausgewählt sein
-
-// diese Auswahl muss valide sein
-
-// Wenn es keine Fehler gibt, nächster Schritt (Versenden)
-if($hasError == false){
-    echo 'Bereit zum Versenden der E-Mails';
-}
-
-// Fehlermeldungen ausgeben (Array als String flatten), wenn vorhanden
-if(count($errorMessages) > 0){
-    echo implode("<br>", $errorMessages);
-}
+// Umleitung zum ursprünglichen Formular
+header("Location: formular.php");
+exit();
 ?>
