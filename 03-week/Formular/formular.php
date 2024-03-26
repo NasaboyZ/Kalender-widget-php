@@ -1,10 +1,5 @@
 <?php 
 $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
-
-// diese Function lässt den user nicht html ellemente auf meiner Webseite schreiben
-function e($html){
-    return htmlspecialchars($html,ENT_QUOTES,'UFT-8',true);
-}
 ?>
     <?php include 'länder/country.php'; ?>
 
@@ -71,6 +66,8 @@ function e($html){
     </style>
 </head>
 <body>
+        <?php include 'XSS/functiongengenXss.php';?>
+
     <header>
         <nav>
             <div class="logo-in-login"><a href="index.html">M.W.C</a></div>
