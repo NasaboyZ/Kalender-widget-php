@@ -25,58 +25,66 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
     <title><?php echo $pageTitle ?></title>
 
     <style>
-        body * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background: rgba(223, 230, 231);
-            width: 100%;
-            font-family: Arial, Helvetica, sans-serif;
-            height: 100vh;
-        }
-        
-        nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 0 25px;
-            height: 10vh;
-        }
-        .container-for-interaction {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
+       body * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background: rgba(223, 230, 231);
+        width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        height: 100vh;
+    }
+    
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 25px;
+        height: 10vh;
+    }
+    .container-for-interaction {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
 
-        .container-for-interaction > a {
-            text-decoration: none;
-            color: black;
-            padding: 7px 27px 7px 27px;
-            border: solid black 3px;
-            background: yellow;
-        }
+    .container-for-interaction > a {
+        text-decoration: none;
+        color: black;
+        padding: 7px 27px 7px 27px;
+        border: solid black 3px;
+        background: yellow;
+    }
 
-        .form-kontakt {
-            gap: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            width: 40%;
-        }
+    .form-kontakt {
+        gap: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 40%;
+    }
 
-        a {
-            text-decoration: none;
-            color: black;
-        }
-        .continer-anrede {
-            display:flex;
-            gap: 1rem;
-            margin-left:2rem;
-        }
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    .continer-anrede {
+        display:flex;
+        gap: 1rem;
+        margin-left:2rem;
+    }
+
+    /* Stil für fokussierte Eingabefelder */
+    input:focus,
+    textarea:focus {
+        outline: none;
+        border-color: blue; /* Ändern Sie die Rahmenfarbe auf Blau */
+        box-shadow: 0 0 5px blue; /* Fügen Sie einen blauen Schatten hinzu */
+    }
     </style>
 </head>
 <body>

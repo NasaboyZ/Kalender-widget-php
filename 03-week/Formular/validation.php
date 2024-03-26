@@ -77,7 +77,7 @@ if($passwortlaenge < 8 || $passwortlaenge > 25 ){
 // Password wird auf Gross- und Kleinschreibung überprüft
 if(strtolower($_POST['password']) == $_POST['password']){
     $hasError = true;
-    $errorMessages [] = 'Passwort muss mindestens einen Großbuchstaben enthalten';
+    $errorMessages [] = 'Passwort muss mindestens einen Grossbuchstaben enthalten';
 
     if(strtoupper($_POST['password']) == $_POST['password']){
         $hasError = true;
