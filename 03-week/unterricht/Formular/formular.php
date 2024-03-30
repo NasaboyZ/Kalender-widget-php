@@ -11,10 +11,20 @@ if(isset($_SESSION['hasError']) && $_SESSION['hasError'] == true && isset($_SESS
     unset($_SESSION['errorMessages']);
 }
 ?>
-<?php 
+
+<?php
+
 $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
+
+    if(!empty($_POST) && isset($cities[$_POST['city']])) {
+        include "text/{$_POST['city']}.html";
+    }
 ?>
     <?php include 'länder/country.php'; ?>
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -78,12 +88,18 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
         margin-left:2rem;
     }
 
-    /* Stil für fokussierte Eingabefelder */
     input:focus,
     textarea:focus {
         outline: none;
-        border-color: blue; /* Ändern Sie die Rahmenfarbe auf Blau */
-        box-shadow: 0 0 5px blue; /* Fügen Sie einen blauen Schatten hinzu */
+        border-color: blue; 
+        box-shadow: 0 0 5px blue; 
+    }
+    .container-länder {
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+}
+
     }
     </style>
 </head>
@@ -112,6 +128,7 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                     
                     <input type="radio" id="other" name="anrede" value="Andere">
                     <label for="other">Nonbinary</label>
+                    
                 </div>
 
                 <div class="container-firstname">
@@ -123,7 +140,7 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                 </div>
 
                 <div class="container-länder">
-                    <label for="city">Bitte wählen Sie die Stadt aus:</label>
+                    <label for="city">Bitte wählen Sie Ihr Land aus:</label>
                     <select name="city" id="city">
                         <?php foreach($countries as $key => $value): ?>
                             <option value="<?php echo $key; ?>" <?php if(isset($_POST['city']) && $_POST['city']===$key) echo 'selected'; ?>><?php echo $value; ?></option>
@@ -143,6 +160,10 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                     <input class="focusout" type="text" name="ort" id="ort" placeholder="Ort" >
                 </div>
 
+                <div class="container-nutzername>
+                    <input class="focusout" type="text" name="nutzername" id="nutzername" placeholder="Nutzername" >
+                </div>
+
                 <div class="container-email">
                     <input class="focusout" type="email" name="email" id="email" placeholder="Email" >
                 </div>
@@ -152,8 +173,8 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                 </div>
 
                 <div class="container-agb">
-                    <label class="container">AGB
-                        <input type="checkbox" checked="checked">
+                    <label class="container"id="agb" name="agb" value="agb">AGB
+                        <input type="checkbox" >
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -175,9 +196,7 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
     </main>
 
     <?php 
-    if(!empty($_POST) && isset($cities[$_POST['city']])) {
-        include "text/{$_POST['city']}.html";
-    }
+
     ?>
 </body>
 </html>

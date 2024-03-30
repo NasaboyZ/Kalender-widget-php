@@ -2,7 +2,7 @@
 session_start();
 
 // Erforderliche Dateien einbinden
-require 'phpmailer/vendor/autoload.php'; // Mailer-Bibliothek einbinden
+ require '../phpmailer/vendor/autoload.php'; // Mailer-Bibliothek einbinden
 require 'config.php'; // Konfigurationsdatei mit den Mailer-Einstellungen einbinden
 
 // Ausgabe der Formulardaten zum Debuggen
@@ -12,12 +12,45 @@ $hasError = false;
 $errorMessages = array();
 
 // Überprüfen auf leere Felder
-$requiredFields = ['firstname', 'secondName', 'adresse', 'plz', 'ort', 'email', 'password'];
+$requiredFields = ['firstname', 'secondName', 'adresse', 'plz', 'ort', 'email', 'password', 'message'];
 foreach ($requiredFields as $field) {
     if (empty($_POST[$field])) {
         $hasError = true;
-        $errorMessages[] = ucfirst($field) . ' darf nicht leer sein';
+        $errorMessages[] = ucfirst($field) . ' darf nicht leer sein'; //ucfirst macht den erst buchstaben gross eines string 
     }
+}
+
+
+
+//Adresse überprüft ob Sie keine zahl ist
+if (preg_match('/\d/', $_POST['adresse'])) { 
+    $hasError = true;
+    $errorMessages[] = 'Die Adresse darf keine Zahlen enthalten';
+}
+
+//postleizahl darf kein buchstaben haben
+if(preg_match('/[a-zA-Z]+/g', $_POST['plz'])){
+    $hasError = true;
+    $errorMessages[]= 'Die Postleizahl darf keine Buchstaben haben';
+}
+
+//plz überprüfung auf Buchstaben
+
+if(preg_match('/[a-zA-Z]+/g',$_POST['plz'])){
+    $hasError = true;
+    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
+}
+
+// Message max anzahl zeichen
+if(strlen($_POST['message'])<4 || strlen($_POST['message']>250)){
+    $hasError = true;
+    $errorMessages []= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
+}
+//nutzername überprüfung auf Buchstaben
+
+if(preg_match('/[a-zA-Z]+/g',$_POST['nutzername'])){
+    $hasError = true;
+    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // E-Mail-Adresse überprüfen
@@ -26,10 +59,10 @@ if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     $errorMessages[] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 }
 
-// Mindestlänge und Leerzeichen im Vorname überprüfen
-if (strlen($_POST['firstname']) < 4 || strlen($_POST['firstname']) > 16 || strpos($_POST['firstname'], ' ') !== false) {
+// Mindestlänge und Leerzeichen im nutzer überprüfen
+if (strlen($_POST['nutzername']) < 4 || strlen($_POST['nutzername']) > 16 || strpos($_POST['nutzername'], ' ') !== false) {
     $hasError = true;
-    $errorMessages[] = 'Vorname muss zwischen 4 und 16 Zeichen lang sein und darf keine Leerzeichen enthalten';
+    $errorMessages[] = 'Vorname muss zwischen 4 und 16 Zeichen lang sein und  darf keine Leerzeichen enthalten';
 }
 
 // Mindestlänge und Zeichen des Passworts überprüfen
@@ -38,7 +71,7 @@ if (strlen($_POST['password']) < 8 || strlen($_POST['password']) > 25 || !preg_m
     $errorMessages[] = 'Passwort muss zwischen 8 und 25 Zeichen lang sein und mindestens eine Zahl enthalten';
 }
 
-// Groß- und Kleinschreibung des Passworts überprüfen
+// Gross- und Kleinschreibung des Passworts überprüfen
 if (!preg_match('/[A-Z]/', $_POST['password']) || !preg_match('/[a-z]/', $_POST['password'])) {
     $hasError = true;
     $errorMessages[] = 'Passwort muss mindestens einen Großbuchstaben und einen Kleinbuchstaben enthalten';
@@ -56,11 +89,23 @@ if (strpos($_POST['password'], ' ') !== false) {
     $errorMessages[] = 'Passwort darf keine Leerzeichen enthalten';
 }
 
-// Überprüfen, ob eine Anrede ausgewählt wurde
+// Überprüfen, ob eine Anrede ausgewählt wurde #Radio Button überprüfung
 if (!isset($_POST['anrede'])) {
     $hasError = true;
     $errorMessages[] = 'Bitte wählen Sie eine Anrede aus!';
 } 
+// Überprüfen, ob eine Checkbox ausgewählt wurde #checkbox überprüfung
+if (!isset($_POST['agb'])) {
+    $hasError = true;
+    $errorMessages[] = 'Bitte noch die AGBs bestätigen.';
+} 
+// Überprüfen, ob eine Selection ausgewählt wurde #select input überprüfung
+if (!isset($_POST['city'])) {
+    $hasError = true;
+    $errorMessages[] = 'Bitte noch die AGBs bestätigen.';
+} 
+
+    
 
 // Wenn keine Fehler vorliegen
 if (!$hasError) {
@@ -99,5 +144,5 @@ $_SESSION['errorMessages'] = $errorMessages;
 
 // Umleitung zum ursprünglichen Formular
 header("Location: formular.php");
-exit();
+ exit();
 ?>

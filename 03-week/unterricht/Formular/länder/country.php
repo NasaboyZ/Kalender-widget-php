@@ -1,5 +1,6 @@
 <?php
     $countries =[
+        'anrede'=> 'Auswahl',
         'hungary' => 'Ungarn',
         'finland' => 'Finnland',
         'switzerland' => 'Schweiz',
@@ -10,7 +11,6 @@
         'spain' => 'Spanien',
         'portugal' => 'Portugal',
         'netherlands' => 'Niederlande',
-        'austria' => 'Österreich',
         'czech_republic' => 'Tschechien',
         'belgium' => 'Belgien',
         'russia' => 'Russland',
