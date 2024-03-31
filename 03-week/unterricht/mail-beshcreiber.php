@@ -1,6 +1,6 @@
 <?php
 // PHP Mailer "laden":
-require 'phpmailer/vendor/composer/autoload.php';
+require 'phpmailer/vendor/autoload.php';
 require 'config.php'; // Konfigurations-Konstanten laden
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -11,15 +11,15 @@ $mailer = new PHPMailer();
 $mailer->isSMTP(); // wir nutzen SMTP
 
 // Verbindungsdaten festlegen für den SMTP Server
-$mailer->Host = 'smtp.gmail.com';
-$mailer->Username = 'citystrolch@gmail.com';
-$mailer->Password = 'rtdc jhdq zooj ipii';
+$mailer->Host = 'smtp.live.com'; // Hotmail SMTP-Host
+$mailer->Username = 'josefleite.00@hotmail.com'; // Deine Hotmail-E-Mail-Adresse
+$mailer->Password = 'Josefleite1996_'; // Dein Hotmail Passwort
 $mailer->SMTPAuth = true;
-$mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
-$mailer->Port = 465;
+$mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // STARTTLS-Verschlüsselung verwenden
+$mailer->Port = 587; // Hotmail SMTP-Port
 
 // Mail erstellen
-$mailer->setFrom('citystrolch@gmail.com', 'Terry Harker Privat');
+$mailer->setFrom('josefleite.00@hotmail.com', 'Dein Name'); // Absenderadresse und Name
 $mailer->addAddress('terry.harker@bytekultur.net', 'Terry Harker, byteKultur');
 $mailer->addAddress('test-1eayji497@srv1.mail-tester.com', 'Terry Harker, byteKultur'); // Tip: mail-tester.com zum Testen des Spam Ratings nutzen!
 
@@ -36,3 +36,5 @@ if( $mailer->send() ){
 }
 
 ?>
+
+

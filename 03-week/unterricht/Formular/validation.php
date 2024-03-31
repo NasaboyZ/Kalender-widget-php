@@ -1,5 +1,6 @@
 <?php
 session_start();
+require '../phpmailer/vendor/autoload.php';
 
 // Erforderliche Dateien einbinden
  require '../phpmailer/vendor/autoload.php'; // Mailer-Bibliothek einbinden
@@ -29,26 +30,27 @@ if (preg_match('/\d/', $_POST['adresse'])) {
 }
 
 //postleizahl darf kein buchstaben haben
-if(preg_match('/[a-zA-Z]+/g', $_POST['plz'])){
+if(preg_match('[a-zA-Z]', $_POST['plz'])){
     $hasError = true;
     $errorMessages[]= 'Die Postleizahl darf keine Buchstaben haben';
 }
 
 //plz überprüfung auf Buchstaben
 
-if(preg_match('/[a-zA-Z]+/g',$_POST['plz'])){
+if(preg_match('[a-zA-Z]',$_POST['plz'])){
     $hasError = true;
     $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // Message max anzahl zeichen
-if(strlen($_POST['message'])<4 || strlen($_POST['message']>250)){
+if(strlen($_POST['message']) < 4 || strlen($_POST['message']) > 250){
+
     $hasError = true;
     $errorMessages []= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
 }
 //nutzername überprüfung auf Buchstaben
 
-if(preg_match('/[a-zA-Z]+/g',$_POST['nutzername'])){
+if(preg_match('[a-zA-Z]',$_POST['nutzername'])){
     $hasError = true;
     $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
