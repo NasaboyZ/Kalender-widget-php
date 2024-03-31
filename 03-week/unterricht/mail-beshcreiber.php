@@ -11,9 +11,15 @@ $mailer = new PHPMailer();
 $mailer->isSMTP(); // wir nutzen SMTP
 
 // Verbindungsdaten festlegen für den SMTP Server
+<<<<<<< HEAD
 $mailer->Host = 'smtp.live.com'; // Hotmail SMTP-Host
 $mailer->Username = 'josefleite.00@hotmail.com'; // Deine Hotmail-E-Mail-Adresse
 $mailer->Password = 'Josefleite1996_'; // Dein Hotmail Passwort
+=======
+$mailer->Host = 'smtp.gmail.com';
+$mailer->Username = '****';
+$mailer->Password = '***';
+>>>>>>> a4063d92bb5844d0bba157a46e97e93a6801d243
 $mailer->SMTPAuth = true;
 $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // STARTTLS-Verschlüsselung verwenden
 $mailer->Port = 587; // Hotmail SMTP-Port
@@ -36,5 +42,8 @@ if( $mailer->send() ){
 }
 
 ?>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a4063d92bb5844d0bba157a46e97e93a6801d243
