@@ -56,7 +56,7 @@ if(preg_match('[a-zA-Z]',$_POST['nutzername'])){
 }
 
 // E-Mail-Adresse überprüfen
-if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
     $hasError = true;
     $errorMessages[] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 }
@@ -110,41 +110,41 @@ if (!isset($_POST['city'])) {
     
 
 // Wenn keine Fehler vorliegen
-if (!$hasError) {
-    // Vorbereitung zum Versenden der E-Mails
-    $mailer = new PHPMailer();
-    $mailer->isSMTP();
-    $mailer->Host = SMTP_HOST;
-    $mailer->Username = SMTP_USER;
-    $mailer->Password = SMTP_PASSWORD;
-    $mailer->SMTPAuth = true;
-    $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
-    $mailer->Port = 465;
+// if (!$hasError) {
+//     // Vorbereitung zum Versenden der E-Mails
+//     $mailer = new PHPMailer();
+//     $mailer->isSMTP();
+//     $mailer->Host = SMTP_HOST;
+//     $mailer->Username = SMTP_USER;
+//     $mailer->Password = SMTP_PASSWORD;
+//     $mailer->SMTPAuth = true;
+//     $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+//     $mailer->Port = 465;
 
-    // E-Mail an den registrierten Benutzer
-    $mailer->setFrom('citystrolch@gmail.com', 'Terry Harker Privat');
-    $mailer->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['secondName']); 
-    $mailer->isHtml(true);
-    $mailer->Subject = 'Bestätigung von M.W.C Collectives';
-    $mailer->Body = 'Hallo ' . $_POST['firstname'] . ', du bist registriert. Vielen Dank für Ihre Anmeldung!';
+//     // E-Mail an den registrierten Benutzer
+//     $mailer->setFrom('citystrolch@gmail.com', 'Terry Harker Privat');
+//     $mailer->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['secondName']); 
+//     $mailer->isHtml(true);
+//     $mailer->Subject = 'Bestätigung von M.W.C Collectives';
+    // $mailer->Body = 'Hallo ' . $_POST['firstname'] . ', du bist registriert. Vielen Dank für Ihre Anmeldung!';
 
     // E-Mail an den Administrator
-    $mailer->addAddress('terry.harker@bytekultur.net', 'Terry Harker, byteKultur');
-    $mailer->Subject = 'Neue Benutzerregistrierung';
-    $mailer->Body = 'Ein neuer Benutzer mit dem Namen ' . $_POST['firstname'] . ' ' . $_POST['secondName'] . ' hat sich registriert.';
+    // $mailer->addAddress('terry.harker@bytekultur.net', 'Terry Harker, byteKultur');
+    // $mailer->Subject = 'Neue Benutzerregistrierung';
+    // $mailer->Body = 'Ein neuer Benutzer mit dem Namen ' . $_POST['firstname'] . ' ' . $_POST['secondName'] . ' hat sich registriert.';
 
     // Versenden der E-Mails
-    if (!$mailer->send()) {
-        $hasError = true;
-        $errorMessages[] = 'Fehler beim Versenden der E-Mails: ' . $mailer->ErrorInfo;
-    }
-}
+    // if (!$mailer->send()) {
+    //     $hasError = true;
+    //     $errorMessages[] = 'Fehler beim Versenden der E-Mails: ' . $mailer->ErrorInfo;
+    // }
+// }
 
 // Setzen der Sitzungsvariablen für Fehlerindikator und Fehlermeldungen
 $_SESSION['hasError'] = $hasError;
 $_SESSION['errorMessages'] = $errorMessages;
 
 // Umleitung zum ursprünglichen Formular
-header("Location: formular.php");
- exit();
-?>
+// header("Location: formular.php");
+//  exit();
+// ?>

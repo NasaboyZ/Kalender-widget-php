@@ -129,7 +129,7 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
 
 
                 <div class="container-firstname">
-                    <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" >
+                    <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" value="$firstname" >
                     <?php
                     if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Vorname darf nicht leer sein', $_SESSION['errorMessages'])) {
                         echo '<p style="color: red;">Vorname darf nicht leer sein</p>';
@@ -139,15 +139,10 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
 
 
                 <div class="container-secondname">
-                    <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" >
+                    <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" value="$secondname" >
                     <?php
                     if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Nachname darf nicht leer sein', $_SESSION['errorMessages'])) {
                         echo '<p style="color: red;">Nachname darf nicht leer sein</p>';
-                    }
-                    ?>
-                        <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte wählen Sie Ihr Land aus!', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Bitte wählen Sie Ihr Land aus!</p>';
                     }
                     ?>
                 </div>
@@ -159,6 +154,11 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                             <option value="<?php echo $key; ?>" <?php if(isset($_POST['city']) && $_POST['city']===$key) echo 'selected'; ?>><?php echo $value; ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <?php
+                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte wählen Sie Ihr Land aus!', $_SESSION['errorMessages'])) {
+                        echo '<p style="color: red;">Bitte wählen Sie Ihr Land aus!</p>';
+                    }
+                    ?>
                 </div>
 
                 <div class="container-adresse">
@@ -243,10 +243,10 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
 
                 <div class="container-messsage">
                     <textarea name="message" id="message" placeholder="Nachricht"></textarea>
-                    <?php
-    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthalten', $_SESSION['errorMessages'])) {
-        echo '<p style="color: red;">Die Nachrichten müssen mehr als 4 Zeichen lang sein und dürfen nicht länger als 250 Zeichen sein.</p>';
-    }
+                      <?php
+                        if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthalten', $_SESSION['errorMessages'])) {
+                        echo '<p style="color: red;">Die Nachrichten müssen mehr als 4 Zeichen lang sein und dürfen nicht länger als 250 Zeichen sein.</p>';
+                        }
     ?>
                 </div>
 
