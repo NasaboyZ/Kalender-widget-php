@@ -11,11 +11,15 @@ echo 'SESSION: ';
 print_r($_SESSION);
 echo '</pre>';
 
+
 // Prüfen
 if (isset($_SESSION['isloggedin']) && $_SESSION['isloggedin'] === true) {
     // user ist eingeloggt
     $isLoggedIn = true;
-
+    if (isset($_GET['islogout']) && $_GET['islogout'] == true) {
+        $isLoggedIn = false;
+    }
+    
     // IP Prüfen 
     if ($_SESSION['userip'] != $_SESSION['REMOTE_ADDR']) {
         $isLoggedIn = false;
@@ -44,7 +48,7 @@ if ($isLoggedIn === false) {
     unset($_SESSION['timestamp']);
 
     // user darf nicht zugreifen - zum Formular umleiten
-    header("location: ./login-formular.php");
+    header("location: login-formular.php");
     exit;
 }
 
@@ -134,7 +138,8 @@ $_SESSION['timestamp'] = time(); //timestamp erneuern bei jedem pageload
             <strong>Adminbereich</strong>
         </div>
         <div class="inner flex-right">
-            <a class="button" href="./logout.php">Logout</a>
+        <a class="button" href="geschuetzer-bereich.php?logout=true">Logout</a>
+
         </div>
     </div>
     <div class="container-lg">
