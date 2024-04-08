@@ -1,3 +1,4 @@
+
 <?php
 // sessionnamen ändern, nicht den bekannten standard verwenden - so ist das auslesen der Session ID aus dem Cookie einiges schwieriger:
 session_name( md5('MEINEIGENERSESSIONNAME') ); 

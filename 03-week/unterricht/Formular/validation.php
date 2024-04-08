@@ -32,39 +32,55 @@ if (preg_match('/\d/', $_POST['adresse'])) {
 //postleizahl darf kein buchstaben haben
 if(preg_match('[a-zA-Z]', $_POST['plz'])){
     $hasError = true;
-    $errorMessages[]= 'Die Postleizahl darf keine Buchstaben haben';
+    $errorMessages['plz']= 'Die Postleizahl darf keine Buchstaben haben';
 }
 
 //plz überprüfung auf Buchstaben
 
 if(preg_match('[a-zA-Z]',$_POST['plz'])){
     $hasError = true;
-    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
+    $errorMessages ['plz'] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // Message max anzahl zeichen
 if(strlen($_POST['message']) < 4 || strlen($_POST['message']) > 250){
 
     $hasError = true;
-    $errorMessages []= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
+    $errorMessages ['message']= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
 }
 //nutzername überprüfung auf Buchstaben
 
 if(preg_match('[a-zA-Z]',$_POST['nutzername'])){
     $hasError = true;
-    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
+    $errorMessages ['nutzername'] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // E-Mail-Adresse überprüfen
-if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
+if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
     $hasError = true;
-    $errorMessages[] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+    $errorMessages['email'] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 }
 
-// Mindestlänge und Leerzeichen im nutzer überprüfen
-if (strlen($_POST['nutzername']) < 4 || strlen($_POST['nutzername']) > 16 || strpos($_POST['nutzername'], ' ') !== false) {
+
+// Vorname überprüfen
+if (empty($_POST['firstname'])) {
     $hasError = true;
-    $errorMessages[] = 'Vorname muss zwischen 4 und 16 Zeichen lang sein und  darf keine Leerzeichen enthalten';
+    $errorMessages['firstname'] = 'Vorname darf nicht leer sein';
+}
+
+// Nachname überprüfen
+if (empty($_POST['secondName'])) {
+    $hasError = true;
+    $errorMessages['secondName'] = 'Nachname darf nicht leer sein';
+}
+
+// Nutzername überprüfen
+if (empty($_POST['nutzername'])) {
+    $hasError = true;
+    $errorMessages[] = 'Nutzername darf nicht leer sein';
+} elseif (strlen($_POST['nutzername']) < 4 || strlen($_POST['nutzername']) > 16 || strpos($_POST['nutzername'], ' ') !== false) {
+    $hasError = true;
+    $errorMessages['nutzername'] = 'Nutzername muss zwischen 4 und 16 Zeichen lang sein und darf keine Leerzeichen enthalten';
 }
 
 // Mindestlänge und Zeichen des Passworts überprüfen
@@ -76,7 +92,7 @@ if (strlen($_POST['password']) < 8 || strlen($_POST['password']) > 25 || !preg_m
 // Gross- und Kleinschreibung des Passworts überprüfen
 if (!preg_match('/[A-Z]/', $_POST['password']) || !preg_match('/[a-z]/', $_POST['password'])) {
     $hasError = true;
-    $errorMessages[] = 'Passwort muss mindestens einen Großbuchstaben und einen Kleinbuchstaben enthalten';
+    $errorMessages[] = 'Passwort muss mindestens einen Grossbuchstaben und einen Kleinbuchstaben enthalten';
 }
 
 // Sonderzeichen im Passwort überprüfen
@@ -85,7 +101,7 @@ if (!preg_match('/[^a-zA-Z\d]/', $_POST['password'])) {
     $errorMessages[] = 'Passwort muss mindestens ein Sonderzeichen enthalten';
 }
 
-// Leerzeichen im Passwort überprüfen
+// kein Leerzeichen im Passwort überprüfen
 if (strpos($_POST['password'], ' ') !== false) {
     $hasError = true;
     $errorMessages[] = 'Passwort darf keine Leerzeichen enthalten';
@@ -142,9 +158,10 @@ if (!isset($_POST['city'])) {
 
 // Setzen der Sitzungsvariablen für Fehlerindikator und Fehlermeldungen
 $_SESSION['hasError'] = $hasError;
+$_SESSION['inputs'] = $_POST;
 $_SESSION['errorMessages'] = $errorMessages;
 
 // Umleitung zum ursprünglichen Formular
-// header("Location: formular.php");
-//  exit();
+header("Location: formular.php");
+ exit();
 // ?>

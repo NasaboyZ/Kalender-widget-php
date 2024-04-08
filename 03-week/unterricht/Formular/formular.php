@@ -1,18 +1,17 @@
-<?php
-session_start();
-?>
+<?php session_start(); ?>
 
 
 <?php
 
 $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
-
+if(!empty($_POST) ) {
+    print_r($_POST);
+}
     if(!empty($_POST) && isset($cities[$_POST['city']])) {
         include "text/{$_POST['city']}.html";
     }
 ?>
     <?php include 'länder/country.php'; ?>
-
 
 
 
@@ -119,121 +118,75 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                     
                     <input type="radio" id="other" name="anrede" value="Andere">
                     <label for="other">Nonbinary</label>
-                    <?php
-                if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte wählen Sie eine Anrede aus!', $_SESSION['errorMessages'])) {
-                    echo '<p style="color: red;">Bitte wählen Sie eine Anrede aus!</p>';
-                }
-                ?>
+                   <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte wählen Sie eine Anrede aus!', $_SESSION['errorMessages'])) ? '<p style="color: red;">Bitte wählen Sie eine Anrede aus!</p>' : '';?>
                     
                 </div>
 
 
                 <div class="container-firstname">
-                    <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" value="$firstname" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Vorname darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Vorname darf nicht leer sein</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="text" name="firstname" id="firstname" placeholder="Vorname" value="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['firstname'] : "" ?>" >
+                    <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Vorname darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Vorname darf nicht leer sein</p>' : '';?>
                 </div>
 
 
                 <div class="container-secondname">
-                    <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" value="$secondname" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Nachname darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Nachname darf nicht leer sein</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="text" name="secondName" id="secondName" placeholder="Nachname" value="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['secondName'] : "" ?>" >
+                    <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Nachname darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Nachname darf nicht leer sein</p>' : '';?>
                 </div>
 
                 <div class="container-länder">
-                    <label for="city">Bitte wählen Sie Ihr Land aus:</label>
+                    <label for="city">Bitte wählen Sie Ihr Land aus:</label> 
                     <select name="city" id="city">
                         <?php foreach($countries as $key => $value): ?>
                             <option value="<?php echo $key; ?>" <?php if(isset($_POST['city']) && $_POST['city']===$key) echo 'selected'; ?>><?php echo $value; ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte wählen Sie Ihr Land aus!', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Bitte wählen Sie Ihr Land aus!</p>';
-                    }
-                    ?>
+                   <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte wählen Sie Ihr Land aus!', $_SESSION['errorMessages'])) ? '<p style="color: red;">Bitte wählen Sie Ihr Land aus!</p>' : '';?>
                 </div>
 
                 <div class="container-adresse">
-                    <input class="focusout" type="text" name="adresse" id="adresse" placeholder="Adresse" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Adresse darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Adresse darf nicht leer sein</p>';
-                    }
-                    ?>
+                <input class="focusout" type="text" name="adresse" id="adresse" placeholder="Adresse" value="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['adresse'] : "" ?>" >
+
+                   <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Adresse darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Adresse darf nicht leer sein</p>' : '';?>
                 </div>
                 <div class="container-hausnummer">
-                    <input class="focusout" type="text" name="hausnummer" id="hausnummer" placeholder="Hausnummer" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Hausnummer darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Hausnummer darf nicht leer sein</p>';
-                    }
-                    ?>
+                <input class="focusout" type="text" name="hausnummer" id="hausnummer" placeholder="Hausnummer" value="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['hausnummer'] : "" ?>">
+                   <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Hausnummer darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Hausnummer darf nicht leer sein</p>' : '';?>
                 </div>
 
                 <div class="container-plz">
-                    <input class="focusout" type="text" name="plz" id="plz" placeholder="Postleitzahl" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Postleitzahl darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Postleitzahl darf nicht leer sein</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="text" name="plz" id="plz" placeholder="Postleitzahl" value = "<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['plz'] : "" ?>" >
+                    <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Postleitzahl darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Postleitzahl darf nicht leer sein</p>' : '';?>
                 </div>
 
                 <div class="container-ort">
-                    <input class="focusout" type="text" name="ort" id="ort" placeholder="Ort" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Ort darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Ort darf nicht leer sein</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="text" name="ort" id="ort" placeholder="Ort" value ="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['ort'] : "" ?>" >
+                    <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Ort darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Ort darf nicht leer sein</p>' : '';?>
                 </div>
 
                 <div class="container-nutzername">
-                    <input class="focusout" type="text" name="nutzername" id="nutzername" placeholder="Nutzername" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Nutzername darf nicht leer sein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Nutzername darf nicht leer sein</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="text" name="nutzername" id="nutzername" placeholder="Nutzername" value="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['nutzername'] : "" ?>" >
+                 <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Nutzername darf nicht leer sein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Nutzername darf nicht leer sein</p>' : '';?>
                 </div>
 
                 <div class="container-email">
-                    <input class="focusout" type="email" name="email" id="email" placeholder="Email" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte geben Sie eine gültige E-Mail-Adresse ein', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="email" name="email" id="email" placeholder="Email" value="<?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['email'] : "" ?>" >
+                   <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte geben Sie eine gültige E-Mail-Adresse ein', $_SESSION['errorMessages'])) ? '<p style="color: red;">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>' : '';?>
                 </div>
 
                 <div class="container-password">
-                    <input class="focusout" type="password" name="password" id="password" placeholder="Password" >
-                    <?php
-                    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Passwort muss zwischen 8 und 25 Zeichen lang sein und mindestens eine Zahl enthalten', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Passwort muss zwischen 8 und 25 Zeichen lang sein und mindestens eine Zahl enthalten</p>';
-                    }
-                    ?>
+                    <input class="focusout" type="password" name="password" id="password" placeholder="Password"  >
+                    <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Passwort muss zwischen 8 und 25 Zeichen lang sein und mindestens eine Zahl enthalten', $_SESSION['errorMessages'])) ? '<p style="color: red;">Passwort muss zwischen 8 und 25 Zeichen lang sein und mindestens eine Zahl enthalten</p>' : ''; ?>
                 </div>
 
                 <div class="container-agb">
+        
+                <label>
                 <input type="checkbox" id="agb" name="agb" value="accepted"> AGB
+                <span class="checkmark"></span>     
+            </label>
 
-                        <span class="checkmark"></span>
-                    </label>
-
-                    <?php
-    if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte noch die AGBs bestätigen.', $_SESSION['errorMessages'])) {
-        echo '<p style="color: red;">Bitte noch die AGBs bestätigen.</p>';
-    }
-    ?>
+                    <?=  (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Bitte noch die AGBs bestätigen.', $_SESSION['errorMessages'])) ? '<p style="color: red;">Bitte noch die AGBs bestätigen.</p>' : ''; ?>
                 </div>
 
                 <div class="container-newsletter">
@@ -242,12 +195,8 @@ $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
                 </div>
 
                 <div class="container-messsage">
-                    <textarea name="message" id="message" placeholder="Nachricht"></textarea>
-                      <?php
-                        if(isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthalten', $_SESSION['errorMessages'])) {
-                        echo '<p style="color: red;">Die Nachrichten müssen mehr als 4 Zeichen lang sein und dürfen nicht länger als 250 Zeichen sein.</p>';
-                        }
-    ?>
+                <textarea name="message" id="message" placeholder="Nachricht"><?= (isset($_SESSION['inputs'])) ? $_SESSION['inputs']['secondName'] : "" ?></textarea>
+                    <?= (isset($_SESSION['hasError']) && $_SESSION['hasError'] && in_array('Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthalten', $_SESSION['errorMessages'])) ? '<p style="color: red;">Die Nachrichten müssen mehr als 4 Zeichen lang sein und dürfen nicht länger als 250 Zeichen sein.</p>' : '';?>
                 </div>
 
                 <div class="container-submit">
