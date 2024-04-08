@@ -1,9 +1,13 @@
 <?php
 /*
 Prüft das Passwort auf gesetzte regeln und gibt uns ein fehler array zurück.
-@return array -  die fehler
+@return array - die fehler
 */
 function check_password(){
+    $minLength = define(PASSWORD_MINLENGTH)? PASSWORD_MINLENGTH:8;
+    $minLength = define(PASSWORD_MINLOWER)? PASSWORD_MINLENGTH:1;
+    $minLength = define(PASSWORD_MINUPPER)? PASSWORD_MINLENGTH:1;
+    $minLength = define(PASSWORD_MINSPACIAL)? PASSWORD_MINLENGTH:1;
     $errors = array();
         // Suchmuster (testen: https://regex101.com)
     $patternLower = "#([a-z])#"; // kleinbuchstaben finden
