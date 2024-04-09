@@ -1,15 +1,26 @@
-<?php 
-// Das ist das Skript, das die Funktion aufrufen soll
-require_once('functionen.php');
-require_once('constante-global.php');
+<?php
+/*
+ * Das ist das Skript, welches die funktionen aufrufen soll
+ */
+require_once( 'costate-global.php' );
+require_once( 'password-checkt.php' ); // Funktionen einbinden
 
-$patternLower = "#([a-z])#"; // Kleinbuchstaben finden
-$patternUpper = "#([A-Z])#"; // Großbuchstaben finden
-$patternSpecial = "#^(.*)([^a-zA-Z0-9\s])(.*)#"; // Sonderzeichen finden
 
-check_password();
-$fehlerarray = check_password();
-echo '<pre> test1234';
+
+
+$fehlerarray = check_password( 'test1234' );
+echo '<pre>test1234: ';
 print_r($fehlerarray);
 echo '</pre>';
+
+$fehlerarray = check_password( 'Kuckuck!2024' );
+echo '<pre>Kuckuck!2024: ';
+print_r($fehlerarray);
+echo '</pre>';
+
+$fehlerarray = check_password( 'ZUGROSS' );
+echo '<pre>ZUGROSS: ';
+print_r($fehlerarray);
+echo '</pre>';
+
 ?>

@@ -1,52 +1,57 @@
 <?php
-/*
-Prüft das Passwort auf gesetzte regeln und gibt uns ein fehler array zurück.
-@return array - die fehler
-*/
-function check_password(){
-    $minLength = define(PASSWORD_MINLENGTH)? PASSWORD_MINLENGTH:8;
-    $minLength = define(PASSWORD_MINLOWER)? PASSWORD_MINLENGTH:1;
-    $minLength = define(PASSWORD_MINUPPER)? PASSWORD_MINLENGTH:1;
-    $minLength = define(PASSWORD_MINSPACIAL)? PASSWORD_MINLENGTH:1;
+/* prüft ein passwort auf gewisse regeln und gibt bei Fehlern ein fehler array zurück
+ * 
+ * @return array - die fehler
+ */
+function check_password( $password ){
     $errors = array();
-        // Suchmuster (testen: https://regex101.com)
+
+    // wenn die Konstante fehlt, standardwert setzen
+    $minLength = defined('PASSWORD_MINLENGTH') ? PASSWORD_MINLENGTH : 8;
+    $minLower = defined('PASSWORD_MINLOWER') ? PASSWORD_MINLOWER : 1;
+    $minUpper = defined('PASSWORD_MINUPPER') ? PASSWORD_MINUPPER : 1;
+    $minSpecial = defined('PASSWORD_MINSPECIAL') ? PASSWORD_MINSPECIAL : 1;
+
+
+    // Suchmuster (testen: https://regex101.com)
     $patternLower = "#([a-z])#"; // kleinbuchstaben finden
     $patternUpper = "#([A-Z])#"; // grossbuchstaben finden
     $patternSpecial = "#^(.*)([^a-zA-Z0-9\s])(.*)#"; // Sonderzeichen finden
 
-    if( !empty($_POST['password']) ){
+    if( !empty($password) ){
     
-    // Länge überprüfen: 
-    if( strlen($_POST['password'])<$minLength ){
-        $errors[] = "Passwort muss mindestens $minLength Zeichen enthalten";
+        // Länge überprüfen: 
+        if( strlen($password)<$minLength ){
+            $errors[] = "Passwort muss mindestens $minLength Zeichen enthalten";
+        }
+        // Keine Leerzeichen
+        if( strpos( $password, " " ) !== false ){
+            $errors[] = "Passwort darf keine Leerzeichen enthalten";
+        }
+        
+        // Kleinbuchstaben überprüfen: 
+        preg_match_all($patternLower, $password, $matchesLower);
+        $foundLower = count($matchesLower[0]);
+        if( $foundLower < $minLower ){
+            $errors[] = "Passwort muss mindestens $minLower Kleinbuchstaben enthalten";
+        }
+        // Grossbuchstaben überprüfen:
+        preg_match_all($patternUpper, $password, $matchesUpper);
+        $foundUpper = count($matchesUpper[0]);
+        if( $foundUpper < $minUpper ){
+            $errors[] = "Passwort muss mindestens $minUpper Grossbuchstaben enthalten";
+        }
+        // Sonderzeichen überprüfen:
+        preg_match_all($patternSpecial, $password, $matchesSpecial);
+        $foundSpecial = count($matchesSpecial[0]);
+        if( $foundSpecial < $minSpecial ){
+            $errors[] = "Passwort muss mindestens $minSpecial Sonderzeichen enthalten";
+        }
+
     }
-    // Keine Leerzeichen
-    if( strpos( $_POST['password'], " " ) !== false ){
-        $errors[] = "Passwort darf keine Leerzeichen enthalten";
-    }
-    
-    // Kleinbuchstaben überprüfen: 
-    preg_match_all($patternLower, $_POST['password'], $matchesLower);
-    $foundLower = count($matchesLower[0]);
-    if( $foundLower < $minLower ){
-        $errors[] = "Passwort muss mindestens $minLower Kleinbuchstaben enthalten";
-    }
-    // Grossbuchstaben überprüfen:
-    preg_match_all($patternUpper, $_POST['password'], $matchesUpper);
-    $foundUpper = count($matchesUpper[0]);
-    if( $foundUpper < $minUpper ){
-        $errors[] = "Passwort muss mindestens $minUpper Grossbuchstaben enthalten";
-    }
-    // Sonderzeichen überprüfen:
-    preg_match_all($patternSpecial, $_POST['password'], $matchesSpecial);
-    $foundSpecial = count($matchesSpecial[0]);
-    if( $foundSpecial < $minSpecial ){
-        $errors[] = "Passwort muss mindestens $minSpecial Sonderzeichen enthalten";
-    }
+
+    return $errors;
 
 }
 
- return $errors;
-
-}
 ?>
