@@ -1,10 +1,10 @@
 <?php
 session_start();
-require '../phpmailer/vendor/autoload.php';
+// require '../phpmailer/vendor/autoload.php';
 
 // Erforderliche Dateien einbinden
- require '../phpmailer/vendor/autoload.php'; // Mailer-Bibliothek einbinden
-require 'config.php'; // Konfigurationsdatei mit den Mailer-Einstellungen einbinden
+//  require '../phpmailer/vendor/autoload.php'; // Mailer-Bibliothek einbinden
+// require 'config.php'; // Konfigurationsdatei mit den Mailer-Einstellungen einbinden
 
 // Ausgabe der Formulardaten zum Debuggen
 var_dump($_POST);
@@ -32,46 +32,46 @@ if (preg_match('/\d/', $_POST['adresse'])) {
 //postleizahl darf kein buchstaben haben
 if(preg_match('[a-zA-Z]', $_POST['plz'])){
     $hasError = true;
-    $errorMessages['plz']= 'Die Postleizahl darf keine Buchstaben haben';
+    $errorMessages[]= 'Die Postleizahl darf keine Buchstaben haben';
 }
 
 //plz überprüfung auf Buchstaben
 
 if(preg_match('[a-zA-Z]',$_POST['plz'])){
     $hasError = true;
-    $errorMessages ['plz'] = 'Postleizahlen dürfen keine Buchstaben haben';
+    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // Message max anzahl zeichen
 if(strlen($_POST['message']) < 4 || strlen($_POST['message']) > 250){
 
     $hasError = true;
-    $errorMessages ['message']= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
+    $errorMessages []= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
 }
 //nutzername überprüfung auf Buchstaben
 
 if(preg_match('[a-zA-Z]',$_POST['nutzername'])){
     $hasError = true;
-    $errorMessages ['nutzername'] = 'Postleizahlen dürfen keine Buchstaben haben';
+    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // E-Mail-Adresse überprüfen
 if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
     $hasError = true;
-    $errorMessages['email'] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+    $errorMessages[] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 }
 
 
 // Vorname überprüfen
 if (empty($_POST['firstname'])) {
     $hasError = true;
-    $errorMessages['firstname'] = 'Vorname darf nicht leer sein';
+    $errorMessages[] = 'Vorname darf nicht leer sein';
 }
 
 // Nachname überprüfen
 if (empty($_POST['secondName'])) {
     $hasError = true;
-    $errorMessages['secondName'] = 'Nachname darf nicht leer sein';
+    $errorMessages[] = 'Nachname darf nicht leer sein';
 }
 
 // Nutzername überprüfen
@@ -80,7 +80,7 @@ if (empty($_POST['nutzername'])) {
     $errorMessages[] = 'Nutzername darf nicht leer sein';
 } elseif (strlen($_POST['nutzername']) < 4 || strlen($_POST['nutzername']) > 16 || strpos($_POST['nutzername'], ' ') !== false) {
     $hasError = true;
-    $errorMessages['nutzername'] = 'Nutzername muss zwischen 4 und 16 Zeichen lang sein und darf keine Leerzeichen enthalten';
+    $errorMessages[] = 'Nutzername muss zwischen 4 und 16 Zeichen lang sein und darf keine Leerzeichen enthalten';
 }
 
 // Mindestlänge und Zeichen des Passworts überprüfen
@@ -156,12 +156,22 @@ if (!isset($_POST['city'])) {
     // }
 // }
 
-// Setzen der Sitzungsvariablen für Fehlerindikator und Fehlermeldungen
-$_SESSION['hasError'] = $hasError;
-$_SESSION['inputs'] = $_POST;
-$_SESSION['errorMessages'] = $errorMessages;
+var_dump($_POST);
 
-// Umleitung zum ursprünglichen Formular
-header("Location: formular.php");
- exit();
+
+
+
+// Wenn keine Fehler vorliegen
+if (!$hasError) {
+    // Weiterleitung zur neuer-benutzer.php und Übergabe der POST-Daten
+    header("Location:./Formular/mysql/neuer-benutzer.php");
+    exit();
+} else {
+    // Fehler vorhanden, zurück zum Formular mit Fehlermeldungen
+    $_SESSION['hasError'] = $hasError;
+    $_SESSION['inputs'] = $_POST;
+    $_SESSION['errorMessages'] = $errorMessages;
+    header("Location: formular.php");
+    exit();
+}
 // ?>
