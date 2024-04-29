@@ -1,18 +1,23 @@
 <?php
+session_start();
 
 try {
+    // Verbindung zur Datenbank herstellen
     $db = new PDO('mysql:host=localhost;dbname=pinkTonic', 'root', '');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $exception) {
+    // Fehlerbehandlung bei Verbindungsfehler
     die('MySQL Verbindungsfehler: ' . $exception->getMessage());
+    var_dump($db);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Überprüfung und Einfügung der Daten in die Datenbank durchführen
     if (isset($_POST['nutzername']) && isset($_POST['password'])) {
-        $nutzername = htmlspecialchars($_POST['nutzername']); // Sicherheit: HTML-Tags entfernen
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Sicher gehashtes Passwort
-
-        // Überprüfung, ob Benutzername bereits vorhanden ist - Beispiel
+        $nutzername = htmlspecialchars($_POST['nutzername']);
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        
+        // Überprüfen, ob der Benutzername bereits existiert
         $checkQuery = "SELECT COUNT(*) AS count FROM usertest WHERE nutzername = :nutzername";
         $checkStatement = $db->prepare($checkQuery);
         $checkStatement->bindParam(':nutzername', $nutzername);
@@ -21,10 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result['count'] > 0) {
             echo 'Der Benutzername ist bereits vergeben.';
-            exit(); // Beende das Skript, um das Einfügen in die Datenbank zu verhindern
+            exit();
         }
 
-        // Einsetzen der Daten in die Datenbank
+        // Daten in die Datenbank einfügen
         $insertQuery = "INSERT INTO usertest (nutzername, password) VALUES (:nutzername, :password)";
         $statement = $db->prepare($insertQuery);
         $statement->bindParam(':nutzername', $nutzername);
@@ -32,9 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             $statement->execute();
-            //echo 'Daten erfolgreich in die Datenbank eingefügt.'; // Auskommentiert für die Weiterleitung
-            header("Location: admin-login.php");
-            exit(); // Beende das Skript nach der Weiterleitung
+            // Erfolgreiche Eintragung, Weiterleitung oder Rückmeldung
+            header(' Location: ./admin-login.php'); 
+            exit();
         } catch (Exception $e) {
             echo 'Die Daten konnten nicht gespeichert werden: ' . $e->getMessage();
         }
@@ -44,5 +49,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Es wurde keine POST-Anfrage gesendet.";
 }
-
 ?>

@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,300;1,400;1,500;1,700;1,800;1,900&family=Merriweather+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./Formular/css/main.css">
+    <link rel="stylesheet" href="./css/main.css">
     <title>Login</title>
 </head>
 
@@ -20,7 +20,7 @@
         <div class="logo-in-login"><a href="./index.php">M.W.C</a></div>
         <div class="container-for-interaction">
             <p class="frage-an-user">Create an account with us?</p>
-            <a href="./formular.php" class="btn-login">Sign up</a>
+            <a href="../formular.php" class="btn-login">Sign up</a>
         </div>
     </nav>
     <div class="container-login">

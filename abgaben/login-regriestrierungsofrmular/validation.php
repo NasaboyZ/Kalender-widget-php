@@ -1,13 +1,8 @@
 <?php
 session_start();
-// require '../phpmailer/vendor/autoload.php';
-
-// Erforderliche Dateien einbinden
-//  require '../phpmailer/vendor/autoload.php'; // Mailer-Bibliothek einbinden
-// require 'config.php'; // Konfigurationsdatei mit den Mailer-Einstellungen einbinden
 
 // Ausgabe der Formulardaten zum Debuggen
-var_dump($_POST);
+var_dump($_POST);    
 
 $hasError = false;
 $errorMessages = array();
@@ -21,38 +16,34 @@ foreach ($requiredFields as $field) {
     }
 }
 
-
-
-//Adresse überprüft ob Sie keine zahl ist
+// Adresse überprüfen ob Sie keine zahl ist
 if (preg_match('/\d/', $_POST['adresse'])) { 
     $hasError = true;
     $errorMessages[] = 'Die Adresse darf keine Zahlen enthalten';
 }
 
-//postleizahl darf kein buchstaben haben
+// Postleizahl darf kein buchstaben haben
 if(preg_match('[a-zA-Z]', $_POST['plz'])){
     $hasError = true;
-    $errorMessages[]= 'Die Postleizahl darf keine Buchstaben haben';
+    $errorMessages[] = 'Die Postleizahl darf keine Buchstaben haben';
 }
 
-//plz überprüfung auf Buchstaben
-
+// Plz überprüfung auf Buchstaben
 if(preg_match('[a-zA-Z]',$_POST['plz'])){
     $hasError = true;
-    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
+    $errorMessages[] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // Message max anzahl zeichen
 if(strlen($_POST['message']) < 4 || strlen($_POST['message']) > 250){
-
     $hasError = true;
-    $errorMessages []= 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthaltnen';
+    $errorMessages[] = 'Die Nachrichten müssen mehr als 4 sein  und nicht länger als 250 Buchstaben enthalten';
 }
-//nutzername überprüfung auf Buchstaben
 
+// Nutzername überprüfung auf Buchstaben
 if(preg_match('[a-zA-Z]',$_POST['nutzername'])){
     $hasError = true;
-    $errorMessages [] = 'Postleizahlen dürfen keine Buchstaben haben';
+    $errorMessages[] = 'Postleizahlen dürfen keine Buchstaben haben';
 }
 
 // E-Mail-Adresse überprüfen
@@ -60,7 +51,6 @@ if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
     $hasError = true;
     $errorMessages[] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 }
-
 
 // Vorname überprüfen
 if (empty($_POST['firstname'])) {
@@ -101,77 +91,43 @@ if (!preg_match('/[^a-zA-Z\d]/', $_POST['password'])) {
     $errorMessages[] = 'Passwort muss mindestens ein Sonderzeichen enthalten';
 }
 
-// kein Leerzeichen im Passwort überprüfen
+// Kein Leerzeichen im Passwort überprüfen
 if (strpos($_POST['password'], ' ') !== false) {
     $hasError = true;
     $errorMessages[] = 'Passwort darf keine Leerzeichen enthalten';
 }
 
-// Überprüfen, ob eine Anrede ausgewählt wurde #Radio Button überprüfung
+// Überprüfen, ob eine Anrede ausgewählt wurde
 if (!isset($_POST['anrede'])) {
     $hasError = true;
     $errorMessages[] = 'Bitte wählen Sie eine Anrede aus!';
 } 
-// Überprüfen, ob eine Checkbox ausgewählt wurde #checkbox überprüfung
+
+// Überprüfen, ob eine Checkbox ausgewählt wurde
 if (!isset($_POST['agb'])) {
     $hasError = true;
     $errorMessages[] = 'Bitte noch die AGBs bestätigen.';
 } 
-// Überprüfen, ob eine Selection ausgewählt wurde #select input überprüfung
+
+// Überprüfen, ob eine Selection ausgewählt wurde
 if (!isset($_POST['city'])) {
     $hasError = true;
-    $errorMessages[] = 'Bitte noch die AGBs bestätigen.';
-} 
+    $errorMessages[] = 'Bitte wählen Sie Ihr Land aus!';
+}
 
-    
+// Setze $_SESSION['hasError'] auf true, wenn ein Fehler aufgetreten ist
+$_SESSION['hasError'] = $hasError;
 
-// Wenn keine Fehler vorliegen
-// if (!$hasError) {
-//     // Vorbereitung zum Versenden der E-Mails
-//     $mailer = new PHPMailer();
-//     $mailer->isSMTP();
-//     $mailer->Host = SMTP_HOST;
-//     $mailer->Username = SMTP_USER;
-//     $mailer->Password = SMTP_PASSWORD;
-//     $mailer->SMTPAuth = true;
-//     $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
-//     $mailer->Port = 465;
-
-//     // E-Mail an den registrierten Benutzer
-//     $mailer->setFrom('citystrolch@gmail.com', 'Terry Harker Privat');
-//     $mailer->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['secondName']); 
-//     $mailer->isHtml(true);
-//     $mailer->Subject = 'Bestätigung von M.W.C Collectives';
-    // $mailer->Body = 'Hallo ' . $_POST['firstname'] . ', du bist registriert. Vielen Dank für Ihre Anmeldung!';
-
-    // E-Mail an den Administrator
-    // $mailer->addAddress('terry.harker@bytekultur.net', 'Terry Harker, byteKultur');
-    // $mailer->Subject = 'Neue Benutzerregistrierung';
-    // $mailer->Body = 'Ein neuer Benutzer mit dem Namen ' . $_POST['firstname'] . ' ' . $_POST['secondName'] . ' hat sich registriert.';
-
-    // Versenden der E-Mails
-    // if (!$mailer->send()) {
-    //     $hasError = true;
-    //     $errorMessages[] = 'Fehler beim Versenden der E-Mails: ' . $mailer->ErrorInfo;
-    // }
-// }
-
-var_dump($_POST);
-
-
-
-
-// Wenn keine Fehler vorliegen
-if (!$hasError) {
-    // Weiterleitung zur neuer-benutzer.php und Übergabe der POST-Daten
-    header("Location:./Formular/mysql/neuer-benutzer.php");
-    exit();
-} else {
-    // Fehler vorhanden, zurück zum Formular mit Fehlermeldungen
-    $_SESSION['hasError'] = $hasError;
-    $_SESSION['inputs'] = $_POST;
+if ($hasError) {
+    // Wenn Fehler auftreten, Weiterleitung zurück zum Formular mit Fehlermeldungen
     $_SESSION['errorMessages'] = $errorMessages;
-    header("Location: formular.php");
+    $_SESSION['inputs'] = $_POST;
+    header('Location: ./formular.php');
+    exit();
+    
+} else {
+    // Wenn keine Fehler vorliegen, Weiterleitung an neuer-benutzer.php
+    header('Location: /neuer-benutzer.php');        
     exit();
 }
-// ?>
+?>

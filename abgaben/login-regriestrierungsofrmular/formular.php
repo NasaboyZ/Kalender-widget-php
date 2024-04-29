@@ -1,15 +1,16 @@
-<?php session_start();
+<?php 
+session_start();
 include './Formular/länder/country.php';
-include './Formular/mysql/neuer-benutzer.php';
 
-// $pageTitle = basename($_SERVER['PHP_SELF'], '.php');
-// if(!empty($_POST) ) {
-//     print_r($_POST);
-// }
-//     if(!empty($_POST) && isset($cities[$_POST['city']])) {
-//         include "text/{$_POST['city']}.html";
-// ab hier
- 
+$pageTitle = basename($_SERVER['PHP_SELF'], '.php');
+
+if (!empty($_POST)) {
+    print_r($_POST);
+}
+
+if (!empty($_POST) && isset($cities[$_POST['city']])) {
+    include "text/{$_POST['city']}.html";
+}
    
 ?>
 
@@ -32,14 +33,14 @@ include './Formular/mysql/neuer-benutzer.php';
             <div class="logo-in-login"><a href="./formular.php">M.W.C</a></div>
             <div class="container-for-interaction">
                 <p class="frage-an-user">Do you already have an account?</p>
-                <a href="login.html" class="btn-login">Login</a>
+                <a href="./Formular/admin-login.php" class="btn-login">Login</a>
             </div>
         </nav>
     </header>
     
     <main> 
         <div class="container-form">
-            <form class="form-kontakt" action="./validation.php" method="POST">
+            <form class="form-kontakt" action='validation.php' method="POST">
                 <div class="continer-anrede">
                     <input type="radio" id="male" name="anrede" value="Herr">
                     <label for="male">Herr</label> <br>
