@@ -1,26 +1,16 @@
 <?php
-session_start();
+require_once './mysql/db-conation.php';
 
-try {
-    // Verbindung zur Datenbank herstellen
-    $db = new PDO('mysql:host=localhost;dbname=pinkTonic', 'root', '');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (Exception $exception) {
-    // Fehlerbehandlung bei Verbindungsfehler
-    die('MySQL Verbindungsfehler: ' . $exception->getMessage());
-    var_dump($db);
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Überprüfung und Einfügung der Daten in die Datenbank durchführen
+if (!$hasError) {
+    // Check if both username and password are set
     if (isset($_POST['nutzername']) && isset($_POST['password'])) {
-        $nutzername = htmlspecialchars($_POST['nutzername']);
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $username = htmlspecialchars($_POST['nutzername']);
+        $password = $_POST['password']; // Get raw password
         
-        // Überprüfen, ob der Benutzername bereits existiert
+        // Check if the username already exists
         $checkQuery = "SELECT COUNT(*) AS count FROM usertest WHERE nutzername = :nutzername";
         $checkStatement = $db->prepare($checkQuery);
-        $checkStatement->bindParam(':nutzername', $nutzername);
+        $checkStatement->bindParam(':nutzername', $username);
         $checkStatement->execute();
         $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
 
@@ -29,18 +19,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        // Daten in die Datenbank einfügen
+        // Validate and hash the password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insert data into the database
         $insertQuery = "INSERT INTO usertest (nutzername, password) VALUES (:nutzername, :password)";
         $statement = $db->prepare($insertQuery);
-        $statement->bindParam(':nutzername', $nutzername);
-        $statement->bindParam(':password', $password);
-
+        $statement->bindParam(':nutzername', $username);
+        $statement->bindParam(':password', $hashedPassword);
+        
         try {
             $statement->execute();
-            // Erfolgreiche Eintragung, Weiterleitung oder Rückmeldung
-            header(' Location: ./admin-login.php'); 
+            // Redirect or display success message
+            header('Location: ./admin-login.php');
             exit();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo 'Die Daten konnten nicht gespeichert werden: ' . $e->getMessage();
         }
     } else {
@@ -49,4 +42,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Es wurde keine POST-Anfrage gesendet.";
 }
-?>
