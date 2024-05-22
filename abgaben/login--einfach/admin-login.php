@@ -1,18 +1,28 @@
 <?php
-session_start();
-require '/login/login.php';
 
-function getUserId() {
-    // Überprüfen, ob eine Benutzer-ID in der Session gespeichert ist
-    if (isset($_SESSION['user_id'])) {
-        return $_SESSION['user_id'];
+session_start();
+require './login/login.php';
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    // Beispielhafte Überprüfung der Nutzerdaten (implementiere deine eigene Logik)
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    // Angenommen, die Funktion `validate_user` prüft die Daten und gibt bei Erfolg die Nutzer-ID zurück
+    $user_id = validate_user($username, $password);
+    
+    if ($user_id) {
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['login_time'] = date('Y-m-d H:i:s');
+       
+        header("Location: ./gehaim.php"); // Weiterleitung zur Seite, die die Session ausgibt
+        exit;
     } else {
-        // Keine Benutzer-ID gefunden, hier könnte eine Fehlerbehandlung eingefügt werden
-        return null; // oder throw new Exception('Benutzer-ID nicht gefunden.');
+        $errorMessage = 'Invalid credentials!';
     }
 }
 
 ?>
+
 
 
 <!DOCTYPE html>

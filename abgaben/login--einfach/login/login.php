@@ -1,7 +1,7 @@
+
 <?php
 // Verbindung zur Datenbank herstellen
-require_once './mysql/db-conation.php';
-
+require './configurations/config.php';
 // Fehlermeldung initialisieren
 $errorMessage = '';
 
